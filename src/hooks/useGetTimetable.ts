@@ -10,9 +10,13 @@ const getTimetable = async (userData: UserData) => {
     [...new Array(5)]
       .map((_, i) => i + 1)
       .map(async (number) => {
-        const { data } = await axios.post<Timetable>(
-          `${process.env.REACT_APP_API_URL}/timetable/${number}`,
-          userData,
+        const { data } = await axios.get<Timetable>(
+          `${process.env.REACT_APP_API_URL}/${userData.uuid}/timetable/${number}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userData.token}`,
+            },
+          },
         );
         return data;
       }),

@@ -6,17 +6,25 @@ import { useRecoilValue } from 'recoil';
 import News, { NewsDetail } from 'types/news';
 
 const getNews = async (userData: UserData) => {
-  const { data } = await axios.post<News[]>(
-    `${process.env.REACT_APP_API_URL}/news`,
-    userData,
+  const { data } = await axios.get<News[]>(
+    `${process.env.REACT_APP_API_URL}/${userData.uuid}/news`,
+    {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    },
   );
   return data;
 };
 
 const getNewsDetail = async (userData: UserData, newsId: string) => {
-  const { data } = await axios.post<NewsDetail>(
-    `${process.env.REACT_APP_API_URL}/news/${newsId}`,
-    userData,
+  const { data } = await axios.get<NewsDetail>(
+    `${process.env.REACT_APP_API_URL}/${userData.uuid}/news/${newsId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    },
   );
   return data;
 };

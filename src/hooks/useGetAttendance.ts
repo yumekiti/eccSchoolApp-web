@@ -6,9 +6,13 @@ import { useRecoilValue } from 'recoil';
 import Attendance from 'types/attendance';
 
 const getAttendance = async (userData: UserData) => {
-  const { data } = await axios.post<Attendance[]>(
-    `${process.env.REACT_APP_API_URL}/attendance`,
-    userData,
+  const { data } = await axios.get<Attendance[]>(
+    `${process.env.REACT_APP_API_URL}/${userData.uuid}/attendance`,
+    {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    },
   );
   return data.map((a) => ({ ...a, title: a.title.replace('?', '') }));
 };

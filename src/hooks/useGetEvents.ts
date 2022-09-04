@@ -18,11 +18,17 @@ const getEvents = async (
   userData: UserData,
   selectedDate: SelectedDate,
 ): Promise<CalendarEvent[]> => {
-  const { data } = await axios.post<Event[]>(
-    `${process.env.REACT_APP_API_URL}/calendar/${selectedDate.year}/${
+  const { data } = await axios.get<Event[]>(
+    `${process.env.REACT_APP_API_URL}/${userData.uuid}/calendar/${
+      selectedDate.year
+    }/${
       selectedDate.month < 10 ? `0${selectedDate.month}` : selectedDate.month
     }`,
-    userData,
+    {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    },
   );
 
   return data.map((d) => ({
