@@ -1,5 +1,5 @@
 type UserData = {
-  id: string | null;
-  pw: string | null;
+  uuid: string | null;
+  token: string | null;
 };
 export default UserData;

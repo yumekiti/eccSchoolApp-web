@@ -62,18 +62,31 @@ const AuthForm: VFC<Props> = ({ setIsLoading }) => {
       .post<{
         message: 'success' | 'error';
         status: 200 | 401;
+        token: string;
       }>(`${process.env.REACT_APP_API_URL}/signin`, {
         id,
         pw,
       })
-      .then((data) => {
-        if (!data) return console.error('通信に失敗しました。');
-        if (data.status !== 200) return setAuthResult(false);
+      .then((response) => {
+        if (!response) return console.error('通信に失敗しました。');
+        if (response.status !== 200) return setAuthResult(false);
         setAuthResult(true);
-        setUserDataHandler(id, pw);
-        ReactGA.event('signin_success');
-        navigate('/');
-        setIsLoading(false);
+        axios
+          .get<{
+            uuid: string;
+          }>(`${process.env.REACT_APP_API_URL}/uuid`, {
+            headers: {
+              Authorization: `Bearer ${response.data.token}`,
+            },
+          })
+          .then((_response) => {
+            if (!_response) return console.error('通信に失敗しました。');
+            if (_response.status !== 200) return setAuthResult(false);
+            setUserDataHandler(_response.data.uuid, response.data.token);
+            ReactGA.event('signin_success');
+            navigate('/');
+            setIsLoading(false);
+          });
       })
       .catch(() => {
         // eslint-disable-next-line no-alert

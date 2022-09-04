@@ -38,7 +38,7 @@ const App: VFC = () => {
    * @returns {void}
    */
   useEffect(() => {
-    if (userData.id === null || userData.pw === null) navigate('/signin');
+    if (userData.uuid === null || userData.token === null) navigate('/signin');
   }, []);
 
   return (

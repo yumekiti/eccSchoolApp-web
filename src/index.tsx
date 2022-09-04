@@ -8,10 +8,10 @@ import { MutableSnapshot, RecoilRoot } from 'recoil';
 import userDataState from 'globalState/userDataState';
 
 const initializeState = (mutableSnapshot: MutableSnapshot) => {
-  const id = localStorage.getItem('id');
-  const pw = localStorage.getItem('pw');
-  if (id !== null || pw !== null)
-    mutableSnapshot.set(userDataState, { id, pw });
+  const uuid = localStorage.getItem('uuid');
+  const token = localStorage.getItem('token');
+  if (uuid !== null || token !== null)
+    mutableSnapshot.set(userDataState, { uuid, token });
 };
 
 ReactDOM.render(

@@ -22,13 +22,17 @@ const Signin: VFC = () => {
    * @returns {void}
    */
   useEffect(() => {
-    if (userData.id === null || userData.pw === null) return;
+    if (userData.uuid === null || userData.token === null) return;
     setIsLoading(true);
     axios
-      .post<{
+      .get<{
         message: 'success' | 'error';
         status: 200 | 401;
-      }>(`${process.env.REACT_APP_API_URL}/signin`, userData)
+      }>(`${process.env.REACT_APP_API_URL}/${userData.uuid}/signin`, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`,
+        },
+      })
       .then(({ data }) => {
         setIsLoading(false);
         if (data.status === 401) return userDataReset();
