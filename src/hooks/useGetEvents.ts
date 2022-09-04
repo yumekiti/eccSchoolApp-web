@@ -33,7 +33,7 @@ const getEvents = async (
 
   return data.map((d) => ({
     allDay: true,
-    title: d.plans.title[0],
+    title: d.plans[0].title,
     start: new Date(selectedDate.year, selectedDate.month - 1, Number(d.day)),
     end: new Date(selectedDate.year, selectedDate.month - 1, Number(d.day)),
   }));
